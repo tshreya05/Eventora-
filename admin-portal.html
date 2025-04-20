@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Event Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
+ <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: #f4f6f8;
+      color: #1e293b;
+    }
+    header {
+      background-color: #0f172a;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    .profile-menu {
+      position: relative;
+      cursor: pointer;
+    }
+    .profile-name {
+      font-weight: 600;
+      color: #38bdf8;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      min-width: 200px;
+    }
+    .dropdown a {
+      display: block;
+      padding: 12px;
+      color: #1e293b;
+      text-decoration: none;
+    }
+    .dropdown a:hover {
+      background-color: #f1f5f9;
+    }
+    .container {
+      display: flex;
+      padding: 30px;
+      gap: 24px;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #1e293b;
+      color: white;
+      border-radius: 16px;
+      padding: 30px 24px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    }
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+      color: #38bdf8;
+    }
+    .sidebar a {
+      display: block;
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 10px 0;
+      font-size: 16px;
+    }
+    .sidebar a:hover {
+      color: #fcd34d;
+      padding-left: 6px;
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      gap: 24px;
+    }
+    .events-section {
+      flex: 2;
+    }
+    .back-arrow {
+      font-size: 20px;
+      display: inline-block;
+      margin-bottom: 10px;
+      color: #0284c7;
+      text-decoration: none;
+    }
+    .events-section h2 {
+      font-size: 26px;
+      margin-bottom: 16px;
+      color: #0f172a;
+    }
+    .toggle-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .toggle-buttons button {
+      padding: 8px 16px;
+      background-color: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .toggle-buttons button:hover {
+      background-color: #334155;
+    }
+    .event-card {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      margin-bottom: 24px;
+    }
+    .event-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+    .event-card h3 a {
+      color: #0284c7;
+      text-decoration: none;
+    }
+    .event-card p {
+      margin: 6px 0;
+      color: #475569;
+    }
+    .register-btn {
+      margin-top: 14px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .register-btn:hover {
+      background-color: #059669;
+    }
+    .rightbar {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .card {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #0f172a;
+    }
+    #calendar {
+      margin-top: 12px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .fc {
+      font-size: 14px;
+    }
+  </style>
+
+</head>
+<body>
+  <header>
+    <h1>Eventora - College Event Management</h1>
+    <div class="profile-menu" onclick="toggleDropdown()">
+      <span class="profile-name">👤 John Doe ▾</span>
+      <div class="dropdown" id="profileDropdown">
+        <a href="#" onclick="loadSection('account')">Account</a>
+        <a href="#" onclick="loadSection('history')">Participation History</a>
+        <a href="#" onclick="loadSection('accomplishments')">Accomplishments</a>
+        <a href="#" onclick="loadSection('registered')">Registered Events</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Menu</h2>
+      <a href="#">Profile</a>
+      <a href="#">Event Gallery</a>
+      <a href="#" onclick="loadSection('addEvent')">Add Event</a>
+      <a href="#" onclick="loadEvents()">View Events</a>
+      <hr style="border: 1px solid #334155; margin: 16px 0;">
+      <a href="#">Settings</a>
+      <a href="#">Logout</a>
+    </aside>
+
+    <div class="main-content">
+      <div class="events-section" id="mainContent">
+        <a href="#" class="back-arrow" id="backArrow" style="display: none;" onclick="goBack()">← Back</a>
+        <div class="toggle-buttons">
+          <button id="past-btn">Past Events</button>
+          <button id="upcoming-btn">Upcoming Events</button>
+        </div>
+        <div id="past-events-section" style="display: none;"></div>
+        <div id="upcoming-events-section"></div>
+      </div>
+
+      <div class="rightbar">
+        <div class="card">
+          <h3>Calendar</h3>
+          <div id="calendar"></div>
+        </div>
+        <div class="card">
+          <h3>Reminders</h3>
+          <button class="reminder-btn">Set Reminder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script>
+    let originalContent = '';
+
+    window.onload = () => {
+      originalContent = document.getElementById('mainContent').innerHTML;
+
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth'
+      });
+      calendar.render();
+
+      loadEvents(); // Load events on start
+    };
+
+    function toggleDropdown() {
+      const dropdown = document.getElementById('profileDropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function(e) {
+      const profileMenu = document.querySelector('.profile-menu');
+      const dropdown = document.getElementById('profileDropdown');
+      if (!profileMenu.contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    function goBack() {
+      const main = document.getElementById('mainContent');
+      main.innerHTML = originalContent;
+      loadEvents(); // reload from DB
+    }
+
+    function loadSection(section) {
+      const main = document.getElementById('mainContent');
+      let content = `<a href="#" class="back-arrow" onclick="goBack()">← Back</a>`;
+      switch (section) {
+        case 'account':
+          content += `<div class="event-card"><h3>Student Account</h3><p><strong>Name:</strong> John Doe</p><p><strong>Email:</strong> john@example.com</p></div>`;
+          break;
+        case 'history':
+          content += `<div class="event-card"><h3>Participation History</h3><p>Hackathon 2024</p><p>Tech Talk 2023</p></div>`;
+          break;
+        case 'accomplishments':
+          content += `<div class="event-card"><h3>Accomplishments</h3><p>🥇 1st Place - Hackathon</p></div>`;
+          break;
+        case 'registered':
+          content += `<div class="event-card"><h3>Registered Events</h3><p>Tech Talk: Future of AI</p></div>`;
+          break;
+        case 'addEvent':
+          content += `
+            <div class="event-card">
+              <h3>Add New Event</h3>
+              <form id="addEventForm" enctype="multipart/form-data">
+                <label>Event Name:</label><br>
+                <input type="text" name="eventName" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Category:</label><br>
+                <input type="text" name="category" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Club:</label><br>
+                <input type="text" name="club" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Venue:</label><br>
+                <input type="text" name="venue" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Time:</label><br>
+                <input type="datetime-local" name="time" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Registration Link:</label><br>
+                <input type="url" name="regLink" required style="width:100%; padding:8px; margin-bottom:10px;"><br>
+
+                <label>Event Description:</label><br>
+                <textarea name="description" rows="4" required style="width:100%; padding:8px; margin-bottom:10px;"></textarea><br>
+
+                <label>Upload File:</label><br>
+                <input type="file" name="fileUpload" style="margin-bottom:16px;"><br>
+
+                <button type="submit" class="register-btn">Add Event</button>
+              </form>
+            </div>
+          `;
+          break;
+      }
+      main.innerHTML = content;
+    }
+
+    async function loadEvents() {
+      const res = await fetch('http://localhost:3000/api/events');
+      const events = await res.json();
+
+      const section = document.getElementById('upcoming-events-section');
+      section.innerHTML = '';
+
+      events.forEach(ev => {
+        const time = new Date(ev.time).toLocaleString();
+        section.innerHTML += `
+          <div class="event-card">
+            <h3><a href="${ev.regLink}" target="_blank">${ev.eventName}</a></h3>
+            <p>📍 ${ev.venue}</p>
+            <p>📅 ${time}</p>
+            <p>${ev.description}</p>
+            <button class="register-btn" onclick="window.open('${ev.regLink}', '_blank')">Register</button>
+          </div>
+        `;
+      });
+    }
+
+    // Fixed submit handler (saves to MySQL + updates UI)
+    document.addEventListener('submit', async function(e) {
+      if (e.target && e.target.id === 'addEventForm') {
+        e.preventDefault();
+
+        const form = e.target;
+        const data = {
+          eventName: form.eventName.value,
+          category: form.category.value,
+          club: form.club.value,
+          venue: form.venue.value,
+          time: form.time.value,
+          regLink: form.regLink.value,
+          description: form.description.value
+        };
+
+        try {
+          const res = await fetch('http://localhost:3000/api/events', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+
+          if (!res.ok) throw new Error("Failed to save event");
+
+          await loadEvents(); // wait for new data
+          goBack();           // then switch back to main view
+
+        } catch (err) {
+          console.error("Error:", err);
+          alert("Failed to save event.");
+        }
+      }
+    });
+
+    // Toggle buttons for showing sections
+    document.getElementById("past-btn").onclick = () => {
+      document.getElementById("past-events-section").style.display = "block";
+      document.getElementById("upcoming-events-section").style.display = "none";
+    };
+    document.getElementById("upcoming-btn").onclick = () => {
+      document.getElementById("past-events-section").style.display = "none";
+      document.getElementById("upcoming-events-section").style.display = "block";
+    };
+  </script>
+</body>
+</html>
