@@ -1,0 +1,97 @@
+body {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://www.bennett.edu.in/wp-content/uploads/2021/07/campusBuilding-scaled.jpg');
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.logo {
+  width: 180px;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 1.2rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: bold;
+  color: #555;
+}
+
+.input-group input {
+  width: 90%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.login-btn {
+  background-color: #004aad;
+  color: white;
+  border: none;
+  padding: 0.65rem 1.4rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 0.8rem;
+}
+
+.login-btn:hover {
+  background-color: #003080;
+}
+
+.error-message {
+  display: none;
+  color: red;
+  font-size: 14px;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-top: -0.6rem;
+  margin-bottom: 1rem;
+}
+
+.forgot-password a {
+  font-size: 0.85rem;
+  color: #004aad;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.confirmation-message {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+
+}
