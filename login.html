@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EVENTORA LOGIN</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <img src="WhatsApp Image 2025-03-19 at 12.01.35_4c56b59c.jpg" class="logo" alt="EVENTORA Logo" />
+    <h1>Login</h1>
+    <form onsubmit="validateForm(event)">
+     <div class="input-group">
+  	<label for="username">Username</label>
+  	<input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" />
+ 	 <p id="username-error" class="error-message" style="display: none;">Username is required</p>
+     </div>
+
+     <div class="input-group">
+  	<label for="password">Password</label>
+  	<input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" />
+  	<p id="password-error" class="error-message" style="display: none;">Password is required</p>
+     </div>
+
+     <p id="error-message" class="error-message" style="display: none;"></p>
+
+      
+      <div class="forgot-password">
+  	<a href="fp.html">Forgot Password?</a>
+      </div>
+
+      
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
